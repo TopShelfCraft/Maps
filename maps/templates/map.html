@@ -1,0 +1,79 @@
+{% import "_includes/forms" as forms %}
+
+{% includeCssResource "squarebitmaps/css/global_maps.css" %}
+{% includeJsResource "squarebitmaps/js/global_maps.js" %}
+
+{% set mapjs %}
+    if (typeof(JDB) == 'undefined' || ( ! JDB instanceof Object)) JDB = new Object();
+	if (typeof(JDB.google_maps) == 'undefined' || ( ! JDB.google_maps instanceof Array)) JDB.google_maps = new Array();
+
+	arrKey = JDB.google_maps.push({
+		init : {
+			api_key: '',
+			map_field: '{{ id }}',
+			map_container: '{{ id }}-container',
+			map_lat: {{ (arr.map_lat is defined and arr.map_lat != '' ? arr.map_lat : settings.map_lat) }},
+			map_lng: {{ (arr.map_lng is defined and arr.map_lng != '' ? arr.map_lng : settings.map_lng) }},
+			map_zoom: {{ (arr.map_zoom is defined and arr.map_zoom != '' ? arr.map_zoom : settings.map_zoom) }},
+			pin_lat: {{ (arr.pin_lat is defined and arr.pin_lat != '' ? arr.pin_lat : settings.map_lat) }},
+			pin_lng: {{ (arr.pin_lng is defined and arr.pin_lng != '' ? arr.pin_lng : settings.map_lng) }},
+			address_input: '{{ id }}-address',
+			address_submit: '{{ id }}-address-submit',
+			overlay_container: '{{ id }}-overlay-container',
+			overlay_reset: '{{ id }}-overlay-reset',
+			overlay_field: '{{ id }}-overlay-field',
+			existing_data: '',
+			pin_center_control: '{{ id }}-center-pin'
+		},
+		options : {
+			ui_zoom: '1',
+			ui_scale: '',
+			ui_overview: '',
+			ui_map_type: '',
+			ui_streetview: '',
+			ui_pan: '1',
+			ui_rotate: '',
+			ui_disable: '',
+			map_drag: '1',
+			map_click_zoom: '',
+			map_scroll_zoom: '1',
+			map_type_default: '',
+			pin_drag: '1',
+			background: ''
+		}
+	});
+
+	initializeSingle(arrKey-1);
+
+{% endset %}
+{% includeJs mapjs %}
+
+
+<div class="maps-ft-container">
+
+	<div>
+
+		<div id="{{ name }}-container" class="maps-ft-map" rel="{{ name }}" style="">
+			Sorry, javascript is required for this map
+		</div>
+
+
+		<div class="sb-google-map-address-lookup">
+			<input type="hidden" class="sb-map-field {{ name }}" name="{{ name }}" id="{{ name }}" value=""/>
+
+			<div class="sb-google-map-address-input-container">
+				<div style="width:25%; float:left; padding-right : 5px;">
+					{{ forms.textField({
+			            placeholder: "eg. London, UK"|t,
+			            id: name~'-address'
+			        }) }}
+		        </div>
+				<input id="{{ name }}-address-submit" class="sb-google-map-address-submit btn" type="button" value="Find Address"/>
+
+				<a href="#" id="{{ name }}-overlay-reset">Clear field</a>
+				<a href="#" class="sb-google-map-pin-center-control" id="{{ name }}-center-pin">Center Pin</a>
+			</div>
+		</div>
+
+	</div>
+</div>

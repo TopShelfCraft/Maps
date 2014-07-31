@@ -1,0 +1,61 @@
+div.maps-ft-map {
+border : 1px solid #999;
+width : 99%;
+height : 300px;
+}
+
+div.sb-google-map-address-lookup {
+	margin-top: 1em;
+	margin-bottom : 1.5em;
+}
+
+div.sb-google-map-address-lookup label {
+	font-weight : bold;
+	margin-right : 10px;
+}
+
+input.sb-google-map-address-input {
+	margin-right : 10px;
+	width : 200px;
+	padding : 3px 6px;
+}
+
+.sb-google-map-address-submit {
+	margin-right: 10px;
+}
+
+.maps-ft-map img { max-width : none !important; }
+
+.maps-ft-container {
+	position : relative;
+}
+.maps-ft-container .inactive .maps-ft-container-message{
+
+}
+
+.maps-ft-container .maps-ft-container-message {
+	height : 100%; width : 100%;
+	text-align: center;
+	vertical-align: center;
+	background : rgba(255,255,255,0.9);
+	position : absolute; top : 0;
+	cursor : pointer;
+}
+.maps-ft-container-message p { margin-top : 10px; }
+
+.maps-ft-container .maps-ft-container-message a {
+	color : hsl(347, 81%, 49%); text-decoration: none;
+}
+
+.maps-ft-container .maps-ft-container-message a:hover {
+	text-decoration: underline;
+}
+
+.sb-google-map-address-input-container {
+	min-height : 20px;
+}
+
+.sb-google-map-pin-center-control {
+	position:absolute;
+	right : 1%; margin-top: 5px;
+}

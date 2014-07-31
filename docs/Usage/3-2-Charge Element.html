@@ -1,0 +1,72 @@
+<h2>The Charge Element</h2>
+
+
+<p>The charge object is available on your templates (either automatically populated, or <a href="/plugins/charge/docs/getting-charges">retrieved with a tag</a>). It has the following attributes, and functions available :</p>
+
+
+<h4>Attributes</h4>
+
+<dl>
+	<dt><code>customerName</code></dt>
+	<dt><code>customerEmail</code></dt>
+	<dd>The customers details</dd>
+
+	<dt><code>planType</code></dt>
+	<dd>Either charge (one-off) or recurring</dd>
+	<dt><code>planAmount</code></dt>
+	<dd>The raw amount for the plan, in cents or pennies. ie. $5 == 500. use .formatPlanAmount() to return a nicely formatted version of this</dd>
+	<dt><code>planInterval</code></dt>
+	<dt><code>planIntervalCount</code></dt>
+	<dd>The plan interval and count</dd>
+	<dt><code>planCurrency</code></dt>
+	<dd>The 3 letter code for the currency of the charge. ie. usd/gbp/eur</dd>
+	<dt><code>hash</code></dt>
+	<dd>A unique string for this transaction. You can use this to uniquely identify a transaction safely</dd>
+	<dt><code>mode</code></dt>
+	<dd>The stripe mode the transaction occurred under - live or test</dd>
+	<dt><code>sourceUrl</code></dt>
+	<dd>The url the purchase was made from</dd>
+	<dt><code>timestamp</code></dt>
+	<dd>A DateTime of the time of purchase. Use standard Twig functions you can localize this to the format of your choosing.</dd>
+	<dt><code>userId</code></dt>
+	<dd>The userId of the customer (if they were logged in at the time of purchase)</dd>
+	<dt><code>cardLast4</code></dt>
+	<dd>The last 4 digits of the card. Use the .formatCard() function to return a nicely formatted version of this</dd>
+	<dt><code>cardType</code></dt>
+	<dd>The card type.</dd>
+
+	<dt><code>hasDiscount</code> <span class="note">Added in 1.3</span></dt>
+	<dd>A true/false value to test against to see if the payment has any discount applied</dd>
+
+	<dt><code>planCoupon</code> <span class="note">Added in 1.3</span></dt>
+	<dd>If used, the coupon code as the user entered during payment. Only valid codes will be recorded</dd>
+
+	<dt><code>planCouponStripeId</code> <span class="note">Added in 1.3</span></dt>
+	<dd>The specific Stripe Id of the coupon code as it exists on Stripe. Not needed unless you're building a custom interface for admins, and want to link to the specific coupon in the Stripe dashboard.</dd>
+
+	<dt><code>planDiscount</code> <span class="note">Added in 1.3</span></dt>
+	<dd>The discount amount in cents/pence applied to the payment. Use the .formatDiscountAmount() function to display a nicely version oc this</dd>
+	<dt><code>planFullAmount</code> <span class="note">Added in 1.3</span></dt>
+	<dd>The full original amount for the payment, before any discounts were applied</dd>
+
+	<dt><code>description</code> <span class="note">Added in 1.3</span></dt>
+	<dd>A description for the payment, as optionally set during payment</dd>
+</dl>
+
+<h4>Functions</h4>
+
+<p>To help you make nicer looking pages, you can also use the following helper functions : </p>
+
+<dl>
+	<dt><code>charge.formatPlanAmount()</code></dt>
+	<dd>Formats the plan amount, turns a value like '500' into '$5.00'</dd>
+
+	<dt><code>charge.formatCard()</code></dt>
+	<dd>Formats the card's last 4 digits with dots in the correct format for the cardType. So '4242' turns into similar to : &#183;&#183;&#183;&#183; &#183;&#183;&#183;&#183; &#183;&#183;&#183;&#183; 4242</dd>
+
+	<dt><code>charge.formatDiscountAmount()</code> <span class="note">Added in 1.3</span></dt>
+	<dd>Formats the charge's discount amount, if the there was a discount applied. Will turn '500' into '$5.00'</dd>
+
+	<dt><code>charge.formatPlanFullAmount()</code> <span class="note">Added in 1.3</span></dt>
+	<dd>Behaves the same as formatPlanAmount(), but based on the original plan amount, before any discounts</dd>
+</dl>

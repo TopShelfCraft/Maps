@@ -1,0 +1,81 @@
+<h2>Coupons</h2>
+
+<p>Coupons can be used to apply discounts to any payment, one-off or recurring.</p>
+
+<p>To use coupons, you'll need to do just three things - <a href="#create">create a coupon</a> in the Charge CP, <a href="#form">add a coupon field to your payment form</a>, and add a little bit of <a href="#success">extra logic on your success page</a> to show the value of any discount applied.</p>
+
+<h3 id="create">Creating Coupons</h3>
+<p>In the Charge CP, you'll see a tab called '<em>Coupons</em>', that will list all the coupons currently setup. Add a new coupon, and you'll have the following options : </p>
+
+<dl>
+	<dt><code>Name</code></dt>
+	<dd>A friendly name for the coupon</dd>
+	<dd><code>Code</code></dd>
+	<dd>The actual code users will need to use to redeem the coupon on the front-end</dd>
+
+	<dt><code>Coupon Type</code></dt>
+	<dd>Can be either '<em>Fixed Amount</em>' or '<em>Percentage Off</em>'. Depending on the choice here, different information will be required for the coupon</dd>
+
+	<dt><code>Percentage Off</code>
+	<dd>The % off the amount to discount</dd>
+
+	<dt><code>Amount Off</code>
+	<dd>The amount to deduct from the payment. This is also tied to a specific currency. '5' == '500 cents/pence' etc...</dd>
+
+	<dt><code>Currency</code>
+	<dd>Used together with amount off, for Fixed Amount discounts</dd>
+
+	<dt><code>Payment Types</code></dt>
+	<dd>What type of payment the coupon can be used with. Either <em>One-Off</em> payments, or <em>Recurring</em> payments</dd>
+
+	<dt><code>Max Redemptions</code></dt>
+	<dd>How many times a coupon can be used in total</dd>
+
+	<dt><code>Duration</code></dt>
+	<dd>How long the discount remains applied for against recurring payments. Can be <em>once</em>, <em>forever</em> or <em>repeating</em>.</dd>
+	<dt><code>Duration In Months</code></dt>
+	<dd>If the discount is set to '<em>repeating</em>', how many months it remains applied for</dd>
+
+</dl>
+
+
+<p>Set the details as you need, and Charge will do the rest.</p>
+
+<p class="note"><strong>Note:</strong> Depending on the <em>Payment Type</em> selected, the coupon will be dealt with differently. One-off coupons are handled entirely internally, recurring coupons are handled on the Stripe side. Charge handles all the details of this, but it's good to be aware of the difference when looking at the payments in the Stripe dashboard</p>
+
+
+<h3 id="form">Adding a Coupon Field to your Form</h3>
+<p>This is very simple. All that's needed is a new field called '<em>planCoupon</em>' on your payment form. For example it's as simple as :</p>
+
+<pre><code>&lt;label for="planCoupon"&gt;Coupon&lt;/label&gt;
+&lt;input type="text" <em>name="planCoupon"</em> id="planCoupon" value="&#123;% if charge is defined %&#125;<em>&#123;&#123; charge.planCoupon &#125;&#125;</em>&#123;% endif %&#125;"/&gt;
+
+&#123;% if charge is defined %&#125;
+&#123;&#123; _self.errorList(<em>charge.getErrors('planCoupon')</em>) &#125;&#125;
+&#123;% endif %&#125;</code></pre>
+
+<p class="note"><strong>Note:</strong> Be sure to include the <strong><code>getErrors('planCoupon')</code></strong> block. If the customer tries to use an invalid coupon, we'll return an error message based on why it fails. That might be it's invalid, expired, or not possible for the current purchase payment.</p>
+
+<h3 id="success">Adding new variables to the success page</h3>
+<p>On the success page, you'll want to add a little bit of extra logic, so you can show what discount (if any) was applied. We've made this super simple. We've got variables for all the various values, for example : </p>
+
+
+<pre><code>&#123;% if charge is defined %&#125;
+	Thank you for you payment of <em>&#123;&#123; charge.formatPlanAmount &#125;&#125;</em>
+
+	&#123;% if <em>charge.hasDiscount</em> %&#125;
+		Coupon Code : <em>&#123;&#123; charge.planCoupon &#125;&#125;</em>
+		Discounted from <em>&#123;&#123; charge.formatPlanFullAmount &#125;&#125;</em>,
+		with a discount of <em>&#123;&#123; charge.formatDiscountAmount &#125;&#125;</em>
+	&#123;% endif %&#125;
+&#123;% endif %&#125;</code></pre>
+
+<p>Which, assuming the customer used a valid coupon, would output something like this : </p>
+
+<pre><code>Thank you for you payment of <em>$18.75</em>
+
+Coupon Code : <em>25OFF</em>
+Discounted from <em>$25.00</em>,
+with a discount of <em>$6.25</em></code></pre>
+
+<p class="note"><strong>Note:</strong> The <strong><code>planAmount</code></strong> will always be the amount they actually paid</p>

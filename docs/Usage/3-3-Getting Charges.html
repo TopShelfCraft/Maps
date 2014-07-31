@@ -1,0 +1,57 @@
+<h2>Getting Charges</h2>
+
+<p>Just like <code>craft.entries</code>, you can access the recorded charges with a twig tag. It's exactly the same:</p>
+
+<h4>Parameters</h4>
+
+<p><code>craft.charge.charges</code> accepts the following parameters :</p>
+
+<dl>
+	<dt><code>customerName</code></dt>
+	<dd>Only get charges with a specific customerName</dd>
+
+	<dt><code>customerEmail</code></dt>
+	<dd>Only get charges with a specific customerEmail</dd>
+
+	<dt><code>hash</code></dt>
+	<dd>Only get charges with a specific hash</dd>
+
+	<dt><code>userId</code></dt>
+	<dd>Only fetch charges from a specific userId</dd>
+
+	<dt><code>timestamp</code></dt>
+	<dd>Only fetch charges for a specific time period</dd>
+
+	<dt><code>sourceUrl</code></dt>
+	<dd>Only get charges with a specific sourceUlr</dd>
+
+	<dt><code>planCurrency</code></dt>
+	<dd>Only get charges for a specific currency (defined by the 3 letter currency code - usd/eur/gbp etc..)</dd>
+
+	<dt><code>planType</code></dt>
+	<dd>Only get charges of a specific type - either <em>charge</em> or <em>recurring</em></dd>
+
+</dl>
+
+<p>For example : </p>
+
+<pre><code>{% set charges = <em>craft.charge.charges.customerEmail('example@customer.com').find()</em> %}</code></pre>
+
+<p>Will set <em>charges</em> to be all the charges recorded with the customerEmail of '<em>example@customer.com</em>'. </p>
+
+<p>More likely you'll want to just show a single charge, relating to a specific purchase. For example, if on the payment form, we set the following value as our redirect : </p>
+
+<pre><code>&lt;input type="hidden" name="redirect" value="payment/thanks/<em>{hash}</em>"/&gt;</code></pre>
+
+<p>The user would be directed to a url like : <code>http://site.url/payment/thanks/xxxxxx-xxxxx-xxxxx</code> on success. On that page, we'll already have the relevant charge object defined, but if they revisit that page later, you can get the charge object back like so :</p>
+
+<pre><code>{% <em>set hash = craft.request.getSegment(3)</em> %}
+<em>{% if charge is not defined %}</em>
+	{% <em>set charge = craft.charge.hash(hash).first()</em> %}
+<em>{% endif %}</em>
+
+{% if charge is defined %}
+	Thanks for your payment of <em>{{ charge.formatPlanAmount() }}</em>
+{% endif %}</code></pre>
+
+<p>You could also use this method build retrievable receipts.</p>

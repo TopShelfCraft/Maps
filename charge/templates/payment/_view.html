@@ -1,0 +1,113 @@
+{% extends "_layouts/cp" %}
+{% includeCssResource "charge/css/charge.css" %}
+{% set elementType = 'Charge' %}
+
+{% import "_includes/forms" as forms %}
+
+{% set title %}
+	{% if charge.planType == 'charge' %}{{ charge.formatPlanAmount }} payment
+	{% else %}{{ charge.formatPlanName }} {% endif %} <small>by</small> {{ charge.customerName | ucfirst }}
+{% endset %}
+
+{% set crumbs = [
+	{ label: "Charge"|t, url: url('charge') },
+	{ label: "Detail"|t, url: url('charge/detail/12') }
+] %}
+
+
+{% block content %}
+	<div class="elementindex">
+
+		<span class="mode mode-{{ charge.mode}}"></span>
+
+		{% if charge.mode == 'test' %}
+		<p><strong>This was a Test Mode transaction. No real monies were paid.</strong></p>
+		{% endif %}
+
+
+		<table class="collapsible data">
+			<tbody>
+				<tr>
+					<td class="light">Customer</td>
+					<td>{{ charge.customerName | ucfirst }} <a href="mailto:{{ charge.customerEmail }}">{{ charge.customerEmail }}</a></td>
+				</tr>
+				<tr>
+					<td class="light">Payment</td>
+					<td>
+						{% if charge.planType == 'charge' %}<strong>{{ charge.formatPlanAmount }}</strong>
+						{% else %}<strong>{{ charge.formatPlanName }}</strong> {% endif %}
+
+						{% if charge.hasDiscount %}discounted from {{ charge.formatPlanFullAmount }}{% endif %}
+					</td>
+				</tr>
+				<tr>
+					<td class="light">Type</td>
+					<td>
+						{% if charge.planType == 'charge' %}One time payment
+						{% else %}Recurring payment{% endif %}</td>
+				</tr>
+				<tr>
+					<td class="light">Card</td>
+					<td><span class="cardType type{{ charge.cardType }}"></span> <strong>{{ charge.formatCard }}</strong>{%if charge.cardExpMonth != '' %},  expiry : <strong>{{ charge.cardExpMonth }}/{{ charge.cardExpYear }}</strong>{% endif %}</td>
+				</tr>
+				<tr>
+					<td class="light">Cardholder</td>
+					<td>
+						{% if charge.cardName != '' %}<strong>{{ charge.cardName }}</strong><br/>{% endif %}
+						{% if charge.cardAddressLine1 != '' %}{{ charge.cardAddressLine1 }}<br/>{% endif %}
+						{% if charge.cardAddressLine2 != '' %}{{ charge.cardAddressLine2 }}<br/>{% endif %}
+						{% if charge.cardAddressCity != '' %}{{ charge.cardAddressCity }}<br/>{% endif %}
+						{% if charge.cardAddressState != '' %}{{ charge.cardAddressState }}<br/>{% endif %}
+						{% if charge.cardAddressZip != '' %}{{ charge.cardAddressZip }}<br/>{% endif %}
+						{% if charge.cardAddressCountry != '' %}{{ charge.cardAddressCountry }}<br/>{% endif %}
+					</td>
+				</tr>
+				<tr>
+					<td class="light">Date</td>
+					<td><strong>{{ charge.timestamp.localeDate() }}</strong> at <strong>{{ charge.timestamp.localeTime() }}</strong></td>
+				</tr>
+				<tr>
+					<td class="light">Charge ID</td>
+					<td>{{ charge.id }}</td>
+				</tr>
+				<tr>
+					<td class="light">Description</td>
+					<td>{{ charge.description }}</td>
+				</tr>
+				{% if charge.hasDiscount %}
+				<tr>
+					<td class="light">Discount</td>
+					<td><strong>{{ charge.formatDiscountAmount }}</strong> with Coupon : <strong>{{ charge.planCoupon }}</strong></td>
+				</tr>
+				{% endif %}
+			</tbody>
+		</table>
+
+
+
+
+		<hr/>
+
+		<h3>Additional Information</h3>
+
+	    <form method="post" action="" accept-charset="UTF-8">
+	        <input type="hidden" name="action" value="charge/details" />
+	        <input type="hidden" name="redirect" value="charge/detail/{{ charge.id }}" />
+	        <input type="hidden" name="chargeId" value="{{ charge.id }}"/>
+
+			{{ forms.textareaField({
+				label: "Notes"|t,
+				id: 'notes',
+				name: 'notes',
+				value: charge.notes,
+				class: 'nicetext'
+			}) }}
+
+			<p><input type="submit" class="btn submit" value="Update Notes"></p>
+		</form>
+
+
+
+	</div>
+{% endblock %}
+

@@ -1,0 +1,65 @@
+<h2>Testing Cards</h2>
+
+
+<p>In test mode, you can use these test cards to simulate a successful transaction:</p>
+
+<table>
+  <thead>
+    <th>Number</th>
+    <th>Card type</th>
+  </thead>
+  <tbody>
+    <tr><td class="number"><code>4242<span></span>4242<span></span>4242<span></span>4242</code></td><td>Visa</td></tr>
+    <tr><td class="number"><code>4012<span></span>8888<span></span>8888<span></span>1881</code></td><td>Visa</td></tr>
+    <tr><td class="number"><code>5555<span></span>5555<span></span>5555<span></span>4444</code></td><td>MasterCard</td></tr>
+    <tr><td class="number"><code>5105<span></span>1051<span></span>0510<span></span>5100</code></td><td>MasterCard</td></tr>
+    <tr><td class="number"><code>3782<span></span>822463<span></span>10005</code></td><td>American Express</td></tr>
+    <tr><td class="number"><code>3714<span></span>496353<span></span>98431</code></td><td>American Express</td></tr>
+    <tr><td class="number"><code>6011<span></span>1111<span></span>1111<span></span>1117</code></td><td>Discover</td></tr>
+    <tr><td class="number"><code>6011<span></span>0009<span></span>9013<span></span>9424</code></td><td>Discover</td></tr>
+    <tr><td class="number"><code>3056<span></span>9309<span></span>0259<span></span>04</code></td><td>Diner's Club</td></tr>
+    <tr><td class="number"><code>3852<span></span>0000<span></span>0232<span></span>37</code></td><td>Diner's Club</td></tr>
+    <tr><td class="number"><code>3530<span></span>1113<span></span>3330<span></span>0000</code></td><td>JCB</td></tr>
+    <tr><td class="number"><code>3566<span></span>0020<span></span>2036<span></span>0505</code></td><td>JCB</td></tr>
+  </tbody>
+</table>
+
+<p>In addition, these cards will produce specific responses that are useful for testing different scenarios:</p>
+
+<table>
+  <thead>
+    <th>Number</th>
+    <th>Description</th>
+  </thead>
+  <tbody>
+    <tr><td class="number"><code>4000<span></span>0000<span></span>0000<span></span>0010</code></td><td>With default account settings, charge will succeed but <code>address_line1_check</code> and <code>address_zip_check</code> will both fail.</td></tr>
+    <tr><td class="number"><code>4000<span></span>0000<span></span>0000<span></span>0028</code></td><td>With default account settings, charge will succeed but <code>address_line1_check</code> will fail.</td></tr>
+    <tr><td class="number"><code>4000<span></span>0000<span></span>0000<span></span>0036</code></td><td>With default account settings, charge will succeed but <code>address_zip_check</code> will fail.</td></tr>
+    <tr><td class="number"><code>4000<span></span>0000<span></span>0000<span></span>0044</code></td><td>With default account settings, charge will succeed but <code>address_zip_check</code> and <code>address_line1_check</code> will both be unchecked.</td></tr>
+    <tr><td class="number"><code>4000<span></span>0000<span></span>0000<span></span>0101</code></td><td>With default account settings, charge will succeed but <code>cvc_check</code> will fail if a CVC is entered.</td></tr>
+    <tr><td class="number"><code>4000<span></span>0000<span></span>0000<span></span>0341</code></td><td>Attaching this card to a <a href="https://stripe.com/docs/api#customer_object"><code>Customer</code></a> object will succeed, but attempts to charge the customer will fail.</td></tr>
+    <tr><td class="number"><code>4000<span></span>0000<span></span>0000<span></span>0002</code></td><td>Charges with this card will always be declined with a <code>card_declined</code> code.</td></tr>
+    <tr><td class="number"><code>4000<span></span>0000<span></span>0000<span></span>0127</code></td><td>Charge be declined with an <code>incorrect_cvc</code> code.</td></tr>
+    <tr><td class="number"><code>4000<span></span>0000<span></span>0000<span></span>0069</code></td><td>Charge be declined with an <code>expired_card</code> code.</td></tr>
+    <tr><td class="number"><code>4000<span></span>0000<span></span>0000<span></span>0119</code></td><td>Charge be declined with a <code>processing_error</code> code.</td></tr>
+  </tbody>
+</table>
+
+<p><strong>Additional test mode validation:</strong> By default, passing address or CVC data with the card number will cause the <a href="https://stripe.com/docs/api#charge_object">address and CVC checks</a> to succeed. If not specified, the value of the checks will be <code>null</code>. Any expiration date in the future will be considered valid.</p>
+
+<h3>Testing Specific error codes</h3>
+
+<p>Some suggestions:</p>
+
+<ul>
+    <li><code>card_declined</code>: Use this special card number - <code>4000000000000002</code>.</li>
+    <li><code>incorrect_number</code>: Use a number that fails the Luhn check, e.g. <code>4242424242424241</code>.</li>
+    <li><code>invalid_expiry_month</code>: Use an invalid month e.g. <code>13</code>.</li>
+    <li><code>invalid_expiry_year</code>: Use a year in the past e.g. <code>1970</code>.</li>
+    <li><code>invalid_cvc</code>: Use a two digit number e.g. <code>99</code>.</li>
+</ul>
+
+<p>The full list of API error codes is available <a href="https://stripe.com/docs/api#errors">here</a>.</p>
+
+
+<p>Check the <a href="https://stripe.com/docs/testing">full Stripe documentation</a> for more information on testing.</p>

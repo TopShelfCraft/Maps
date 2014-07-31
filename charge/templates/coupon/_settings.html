@@ -1,0 +1,202 @@
+{% extends "charge/_layout" %}
+{% import "_includes/forms" as forms %}
+
+
+
+{% set crumbs = [
+	{ label: "Charge"|t, url: url('charge') },
+	{ label: "Coupons"|t, url: url('charge/coupons') },
+	{ label: "New"|t, url: url('charge/coupons/new') }
+] %}
+
+{% set selectedTab = 'coupons' %}
+
+{% set isNewCoupon = (coupon is not defined or not coupon.id) %}
+
+
+{% if isNewCoupon %}
+	{% set title = "Create a new coupon"|t %}
+{% else %}
+	{% set title = coupon.name|t %}
+{% endif %}
+
+
+{% block content %}
+
+
+<form method="post" action="" accept-charset="UTF-8" data-saveshortcut="1">
+		<input type="hidden" name="action" value="charge/coupon/save">
+		<input type="hidden" name="redirect" value="charge/coupons">
+
+
+		{% if not isNewCoupon %}
+			<input type="hidden" name="couponId" value="{{ coupon.id }}">
+			<input type="hidden" name="stripeId" value="{{ coupon.stripeId }}">
+		{% endif %}
+
+		{{ forms.textField({
+			first: true,
+			label: "Coupon Name"|t,
+			id: 'name',
+			name: 'name',
+			value: (coupon is defined ? coupon.name : null),
+			errors: (coupon is defined ? coupon.getErrors('name') : null),
+			autofocus: true,
+			required: true,
+			translatable: true
+		}) }}
+
+
+		{{ forms.textField({
+			first: true,
+			label: "Coupon Code"|t,
+			instructions: "The unique code used to apply this coupon. ie. '25OFF'"|t,
+			id: 'code',
+			name: 'code',
+			value: (coupon is defined ? coupon.code : null),
+			errors: (coupon is defined ? coupon.getErrors('code') : null),
+			required: true,
+			translatable: true
+		}) }}
+
+
+
+		<hr/>
+
+		{{ forms.selectField({
+		    label: "Coupon Type"|t,
+		    instructions: "Percentage off or fixed amount"|t,
+		    id: 'couponType',
+		    name: 'couponType',
+		    options: couponTypes,
+		    value: (coupon is defined ? coupon.couponType : null),
+			errors: (coupon is defined ? coupon.getErrors('couponType') : null),
+		    required: true,
+		    class: 'couponType',
+		    toggle: true
+		}) }}
+
+
+		<div class="dependant {%- if coupon is defined and coupon.couponType == 'amount' %} hidden{% endif %}" id="percentage">
+		{{ forms.textField({
+		    label: "Percentage Off"|t,
+		    instructions: "Integer value : 1 - 100"|t,
+		    id: 'percentageOff',
+		    name: 'percentageOff',
+		    size: '10',
+		    value: (coupon is defined ? coupon.percentageOff : null),
+			errors: (coupon is defined ? coupon.getErrors('percentageOff') : null),
+		    class: 'couponType_percentage'
+		}) }}
+		</div>
+
+		<div class="dependant {%- if coupon is defined and coupon.couponType != 'amount' %} hidden{% endif %}" id="amount">
+		{{ forms.textField({
+		    label: "Amount Off"|t,
+		    instructions: "Amount for the discount. ie. 3.50"|t,
+		    id: 'amountOff',
+		    name: 'amountOff',
+		    size: '10',
+		    value: (coupon is defined ? coupon.amountOff : null),
+			errors: (coupon is defined ? coupon.getErrors('amountOff') : null),
+		    class: 'couponType_amount'
+		}) }}
+
+
+		{{ forms.selectField({
+		    label: "Currency"|t,
+		    instructions: "Currency for the amount off"|t,
+		    id: 'currency',
+		    name: 'currency',
+		    options: currencies,
+		    value: (coupon is defined ? coupon.currency : null),
+			errors: (coupon is defined ? coupon.getErrors('currency') : null),
+		    class: 'coupontType_currency'
+		}) }}
+
+		</div>
+
+		<hr/>
+
+
+		{{ forms.selectField({
+		    label: "Payment Types"|t,
+		    instructions: "What types of payment can this coupon be used with"|t,
+		    id: 'paymentType',
+		    name: 'paymentType',
+		    options: paymentTypes,
+		    value: (coupon is defined ? coupon.paymentType : null),
+			errors: (coupon is defined ? coupon.getErrors('paymentType') : null),
+		    required: true,
+		    toggle: true
+		}) }}
+
+
+
+
+		<div class="dependant {%- if coupon is defined and coupon.paymentType != 'recurring' %} hidden{% endif %}" id="recurring" >
+
+		<hr/>
+
+		{{ forms.textField({
+		    label: "Maximum Redemptions"|t,
+		    instructions: "How many times can this be used? Leave blank or zero for no limit"|t,
+		    id: 'maxRedemptions',
+		    name: 'maxRedemptions',
+		    size: '10',
+			errors: (coupon is defined ? coupon.getErrors('maxRedemptions') : null),
+		    value: (coupon is defined ? coupon.maxRedemptions : null)
+		}) }}
+
+		{{ forms.selectField({
+		    label: "Coupon Duration"|t,
+		    instructions: "How long does the applied discount stay in effect for?"|t,
+		    id: 'duration',
+		    name: 'duration',
+		    options: durations,
+		    value: (coupon is defined ? coupon.duration : null),
+			errors: (coupon is defined ? coupon.getErrors('duration') : null),
+			toggle: true
+		}) }}
+
+
+		<div class="dependant {%- if coupon is defined and coupon.duration != 'repeating' %} hidden{% endif %}" id="repeating" >
+			{{ forms.textField({
+			    label: "Duration in Months"|t,
+			    instructions: "How many months does the coupon repeat for?"|t,
+			    id: 'durationInMonths',
+			    name: 'durationInMonths',
+			    size: '10',
+			    value: (coupon is defined ? coupon.durationInMonths : null),
+				errors: (coupon is defined ? coupon.getErrors('durationInMonths') : null)
+			}) }}
+		</div>
+
+
+		</div>
+
+{#--
+		{{ forms.dateTimeField({
+		    label: "Coupon Expiry"|t,
+		    instructions: "Leave blank for no expiry"|t,
+		    id: 'redeemBy',
+		    name: 'redeemBy',
+			errors: (coupon is defined ? coupon.getErrors('redeemBy') : null),
+		    value: (coupon is defined ? coupon.redeemBy : null)
+		}) }}
+--#}
+
+		<div class="buttons">
+			<input type="submit" class="btn submit" value="{{ 'Save'|t }}">
+		</div>
+	</form>
+{% endblock %}
+
+
+{% set js %}
+
+
+{% endset %}
+{% includeJs js %}
+
+

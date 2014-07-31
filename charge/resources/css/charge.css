@@ -1,0 +1,36 @@
+
+
+.cardType {
+	display:block;
+	width : 33px; height : 20px; float: left;
+}
+
+.cardType.typeVisa {
+	background : url(../img/visa.png) 0 0 no-repeat;
+}
+.cardType.typeAmerican {
+	background : url(../img/amex.png) 0 0 no-repeat;
+}
+.cardType.typeDiners {
+	background : url(../img/diners.png) 0 0 no-repeat;
+}
+.cardType.typeJcb {
+	background : url(../img/jcb.png) 0 0 no-repeat;
+}
+
+.cardType.typeMasterCard {
+	background : url(../img/mastercard.png) 0 0 no-repeat;
+}
+
+
+.mode {
+	display : block; text-indent: -999em;
+	width : 54px; height : 55px; position: absolute; right: -26px; top: -39px;
+}
+
+.mode.mode-live {
+	display : none;
+}
+.mode.mode-test {
+	background : url(../img/modeTest.png) 0 0 no-repeat;
+}

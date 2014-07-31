@@ -1,0 +1,11 @@
+{% extends "_layouts/elementindex" %}
+{% set title = "Charges"|t %}
+{% set elementType = 'Charge' %}
+{% includeCssResource "charge/css/charge.css" %}
+
+
+
+{% set tabs = {
+    charges: { label: "Payments"|t, url: url('charge') },
+    coupons: { label: "Coupons"|t, url: url('charge/coupons') }
+} %}

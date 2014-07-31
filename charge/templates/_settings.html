@@ -1,0 +1,62 @@
+{% import "_includes/forms" as forms %}
+
+{{ forms.selectField({
+	first: true,
+	label: "Account Mode"|t,
+	id: 'stripeAccountMode',
+	name: 'stripeAccountMode',
+	instructions: "The account mode to processes transactions under. While in development, keep this as test"|t,
+	value: settings.stripeAccountMode,
+	autofocus: true,
+	options: accountModes,
+	errors: settings.getErrors('stripeAccountMode')
+}) }}
+
+
+
+{{ forms.textField({
+	label: "Test Secret Key"|t,
+	id: 'stripeTestCredentialsSK',
+	name: 'stripeTestCredentialsSK',
+	instructions: ""|t,
+	value: settings.stripeTestCredentialsSK,
+	errors: settings.getErrors('stripeTestCredentialsSK')
+}) }}
+
+
+{{ forms.textField({
+	label: "Test Publishable Key"|t,
+	id: 'stripeTestCredentialsPK',
+	name: 'stripeTestCredentialsPK',
+	instructions: ""|t,
+	value: settings.stripeTestCredentialsPK,
+	errors: settings.getErrors('stripeTestCredentialsPK')
+}) }}
+
+{{ forms.textField({
+	label: "Live Secret Key"|t,
+	id: 'stripeLiveCredentialsSK',
+	name: 'stripeLiveCredentialsSK',
+	instructions: ""|t,
+	value: settings.stripeLiveCredentialsSK,
+	errors: settings.getErrors('stripeLiveCredentialsSK')
+}) }}
+
+{{ forms.textField({
+	label: "Live Publishable Key"|t,
+	id: 'stripeLiveCredentialsPK',
+	name: 'stripeLiveCredentialsPK',
+	instructions: ""|t,
+	value: settings.stripeLiveCredentialsPK,
+	errors: settings.getErrors('stripeLiveCredentialsPK')
+}) }}
+
+{{ forms.selectField({
+	label: "Default Currency"|t,
+	id: 'stripeDefaultCurrency',
+	name: 'stripeDefaultCurrency',
+	instructions: ""|t,
+	value: settings.stripeDefaultCurrency,
+	options : currencies,
+	errors: settings.getErrors('stripeDefaultCurrency')
+}) }}
