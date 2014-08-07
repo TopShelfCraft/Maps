@@ -1,9 +1,19 @@
-# Charge for Craft
+# SquareBit Maps for Craft
 
-Charge is the perfect way to add one-off and recurring payments to your Craft site, powered by Stripe
+Google Maps for Craft, perfectly done.
+
 
 ## Installation
 
-Charge is a standard Craft plugin. Simply drop it into your /craft/plugins folder and install it from admin > settings >plugins.
+SquareBit Maps is a standard Craft plugin. Simply drop it into your /craft/plugins folder and install it from admin > settings >plugins.
 
-You'll need a Stripe account to use Charge. To see what you'll need to include in your templates, have a look at the example templates included, or the full documentation at http://squarebit.co.uk/plugins/charge
+Full details on Installation, Usage and more are available at http://squarebit.co.uk/plugins/maps
+
+
+## Support
+
+If you encounter any issues, have questions or feature requests for Maps on Craft, help is just an email away.
+
+Email support@squarebit.co.uk. Alternatively you can find me on twitter as @joelbradbury.
+
+Feature requests and suggestions are always welcome
