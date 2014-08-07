@@ -1,0 +1,29 @@
+
+{% includeCssResource "squarebitmaps/css/global_maps.css" %}
+{% includeJsResource "squarebitmaps/js/global_maps.js" %}
+
+{% set mapjs %}
+    if (typeof(JDB) == 'undefined' || ( ! JDB instanceof Object)) JDB = new Object();
+	if (typeof(JDB.google_maps) == 'undefined' || ( ! JDB.google_maps instanceof Array)) JDB.google_maps = new Array();
+
+	arrKey = JDB.google_maps.push({
+		init : {
+			api_key: '{{ googleMapsApiKey }}',
+			map_container: '{{ id }}',
+			mapLat: {{ (map.mapLat is defined and map.mapLat != '' ? map.mapLat : '' ) }},
+			mapLng: {{ (map.mapLng is defined and map.mapLng != '' ? map.mapLng : '') }},
+			mapZoom: {{ (map.mapZoom is defined and map.mapZoom != '' ? map.mapZoom : '') }},
+			pinLat: {{ (map.pinLat is defined and map.pinLat != '' ? map.pinLat : '' ) }},
+			pinLng: {{ (map.pinLng is defined and map.pinLng != '' ? map.pinLng : '') }},
+		}
+	});
+
+	initializeSingle(arrKey-1);
+{% endset %}
+{% includeJs mapjs %}
+
+<div class="maps-ft-container">
+	<div id="{{ id }}" class="maps-ft-map" style="">
+		Sorry, javascript is required for this map
+	</div>
+</div>

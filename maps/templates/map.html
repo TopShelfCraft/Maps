@@ -9,21 +9,21 @@
 
 	arrKey = JDB.google_maps.push({
 		init : {
-			api_key: '',
-			map_field: '{{ id }}',
-			map_container: '{{ id }}-container',
-			map_lat: {{ (arr.map_lat is defined and arr.map_lat != '' ? arr.map_lat : settings.map_lat) }},
-			map_lng: {{ (arr.map_lng is defined and arr.map_lng != '' ? arr.map_lng : settings.map_lng) }},
-			map_zoom: {{ (arr.map_zoom is defined and arr.map_zoom != '' ? arr.map_zoom : settings.map_zoom) }},
-			pin_lat: {{ (arr.pin_lat is defined and arr.pin_lat != '' ? arr.pin_lat : settings.map_lat) }},
-			pin_lng: {{ (arr.pin_lng is defined and arr.pin_lng != '' ? arr.pin_lng : settings.map_lng) }},
-			address_input: '{{ id }}-address',
-			address_submit: '{{ id }}-address-submit',
-			overlay_container: '{{ id }}-overlay-container',
-			overlay_reset: '{{ id }}-overlay-reset',
-			overlay_field: '{{ id }}-overlay-field',
+			api_key: '{{ googleMapsApiKey }}',
+			map_field: '{{ namespacedId }}',
+			map_container: '{{ namespacedId }}-container',
+			mapLat: {{ (map.mapLat is defined and map.mapLat != '' ? map.mapLat : settings.mapLat) }},
+			mapLng: {{ (map.mapLng is defined and map.mapLng != '' ? map.mapLng : settings.mapLng) }},
+			mapZoom: {{ (map.mapZoom is defined and map.mapZoom != '' ? map.mapZoom : settings.mapZoom) }},
+			pinLat: {{ (map.pinLat is defined and map.pinLat != '' ? map.pinLat : settings.mapLat) }},
+			pinLng: {{ (map.pinLng is defined and map.pinLng != '' ? map.pinLng : settings.mapLng) }},
+			address_input: '{{ namespacedId }}-address',
+			address_submit: '{{ namespacedId }}-address-submit',
+			overlay_container: '{{ namespacedId }}-optionaloverlay-container',
+			overlay_reset: '{{ namespacedId }}-optionaloverlay-reset',
+			overlay_field: '{{ namespacedId }}-optionaloverlay-field',
 			existing_data: '',
-			pin_center_control: '{{ id }}-center-pin'
+			pin_center_control: '{{ namespacedId }}-center-pin'
 		},
 		options : {
 			ui_zoom: '1',
@@ -48,32 +48,45 @@
 {% endset %}
 {% includeJs mapjs %}
 
-
 <div class="maps-ft-container">
 
 	<div>
 
-		<div id="{{ name }}-container" class="maps-ft-map" rel="{{ name }}" style="">
+		<div id="{{ id }}-container" class="maps-ft-map" rel="{{ name }}" style="height:{{ settings.showHeight }}px">
 			Sorry, javascript is required for this map
 		</div>
 
-
 		<div class="sb-google-map-address-lookup">
-			<input type="hidden" class="sb-map-field {{ name }}" name="{{ name }}" id="{{ name }}" value=""/>
+			<input type="hidden" class="sb-map-field {{ name }}" name="{{ name }}" id="{{ id }}" value=""/>
 
 			<div class="sb-google-map-address-input-container">
+
+				{% if optional == true %}
+					<span id="{{ id }}-optionaloverlay-field" rel="0"/>
+				{% endif %}
+
+				{% if settings.showAddress %}
 				<div style="width:25%; float:left; padding-right : 5px;">
 					{{ forms.textField({
 			            placeholder: "eg. London, UK"|t,
-			            id: name~'-address'
+			            id: id~'-address'
 			        }) }}
 		        </div>
-				<input id="{{ name }}-address-submit" class="sb-google-map-address-submit btn" type="button" value="Find Address"/>
+				<input id="{{ id }}-address-submit" class="sb-google-map-address-submit btn" type="button" value="Find Address"/>
+				{% endif %}
 
-				<a href="#" id="{{ name }}-overlay-reset">Clear field</a>
-				<a href="#" class="sb-google-map-pin-center-control" id="{{ name }}-center-pin">Center Pin</a>
+				{% if optional == true  %}
+					<a href="#" id="{{ id }}-overlay-reset">Clear field</a>
+				{% endif %}
+
+				<a href="#" class="sb-google-map-pin-center-control" id="{{ id }}-center-pin">Center Pin</a>
 			</div>
 		</div>
+
+		{% if optional == true  %}
+			<div class="maps-ft-container-message" id="{{ id }}-optionaloverlay-container"><p>No location data set <a href="#" class="maps-ft-set-location">Add a location</a></p></div>
+		{% endif %}
+
 
 	</div>
 </div>

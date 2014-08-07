@@ -31,8 +31,16 @@ class SquareBitMapsPlugin extends BasePlugin
 	protected function defineSettings()
 	{
 		return array(
-			'something'					=> array(AttributeType::String, 'required' => true)
+			'googleMapsApiKey'		=> array(AttributeType::String, 'required' => true)
 		);
+	}
+
+
+	public function getSettingsHtml()
+	{
+		return craft()->templates->render('squarebitmaps/_settings', array(
+			'settings' => $this->getSettings()
+		));
 	}
 
 

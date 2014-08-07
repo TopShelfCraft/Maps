@@ -1,57 +1,32 @@
 {% import "_includes/forms" as forms %}
 
+<label>Map Default View</label>
+{% include "squarebitmaps/map" %}
 
-{{ forms.textField({
-	label: "Latitude"|t,
-    instructions: "The starting viewport latitude"|t,
-	id: 'map_lat',
-	name: 'map_lat',
-	value: settings.map_lat,
-	errors: settings.getErrors('map_lat')
-}) }}
-
-{{ forms.textField({
-	label: "Longitude"|t,
-    instructions: "The starting viewport longitude"|t,
-	id: 'map_lng',
-	name: 'map_lng',
-	value: settings.map_lng,
-	errors: settings.getErrors('map_lng')
-}) }}
-
-{{ forms.selectField({
-	label: "Map Zoom"|t,
-	instructions: "The default map zoom level",
-	id: 'map_zoom',
-	name: 'map_zoom',
-	options: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
-	value: settings.map_zoom
-}) }}
+{% for error in settings.getErrors() %}
+	{{ dump(error) }}
+{% endfor %}
 
 {{ forms.textField({
 	label: "Container Height"|t,
     instructions: "The height of the map container in px"|t,
-	id: 'show_height',
-	name: 'show_height',
-	value: settings.show_height,
-	errors: settings.getErrors('show_height')
+	id: 'showHeight',
+	name: 'showHeight',
+	value: settings.showHeight,
+	errors: settings.getErrors('showHeight'),
+	size : '10'
 }) }}
 
-
+{#
 {{ forms.checkboxField({
 	label: "Show Address Input"|t,
-	name: 'show_address',
-	checked: settings.show_address
-}) }}
-
-{{ forms.checkboxField({
-	label: "Show Map Type Control"|t,
-	name: 'show_map_type',
-	checked: settings.show_map_type
+	name: 'showAddress',
+	checked: settings.showAddress
 }) }}
 
 {{ forms.checkboxField({
 	label: "Show Center Pin Link"|t,
-	name: 'show_pin_center',
-	checked: settings.show_pin_center
+	name: 'showPinCenter',
+	checked: settings.showPinCenter
 }) }}
+#}

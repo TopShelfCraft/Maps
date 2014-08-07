@@ -21,11 +21,11 @@ if (typeof(JDB.SBGoogleMap) == 'undefined' || ( ! JDB.SBGoogleMap instanceof Obj
 			if (init == null
 				|| typeof(init) != 'object'
 				|| typeof(init.map_container) == 'undefined'
-				|| typeof(init.map_lat) == 'undefined'
-				|| typeof(init.map_lng) == 'undefined'
-				|| typeof(init.map_zoom) == 'undefined'
-				|| typeof(init.pin_lat) == 'undefined'
-				|| typeof(init.pin_lng) == 'undefined') {
+				|| typeof(init.mapLat) == 'undefined'
+				|| typeof(init.mapLng) == 'undefined'
+				|| typeof(init.mapZoom) == 'undefined'
+				|| typeof(init.pinLat) == 'undefined'
+				|| typeof(init.pinLng) == 'undefined') {
 					return false;
 				}
 
@@ -74,14 +74,14 @@ if (typeof(JDB.SBGoogleMap) == 'undefined' || ( ! JDB.SBGoogleMap instanceof Obj
 
 			default_map_type = valid_map_types[map_options['map_type_default']];
 
-			map_center = new google.maps.LatLng(init.map_lat, init.map_lng);
+			map_center = new google.maps.LatLng(init.mapLat, init.mapLng);
 
 			// Create the map.
 			this.__map = new google.maps.Map(
 					document.getElementById(init.map_container), {
 						backgroundColor: map_options['background'],
 						center: map_center,
-						zoom: init.map_zoom,
+						zoom: init.mapZoom,
 						scrollwheel: map_options.map_scroll_zoom,
 						disableDoubleClickZoom: map_options.map_click_zoom,
 						draggable: map_options.map_drag,
@@ -104,7 +104,7 @@ if (typeof(JDB.SBGoogleMap) == 'undefined' || ( ! JDB.SBGoogleMap instanceof Obj
 
 			// Add the map "pin".
 			this.__marker = new google.maps.Marker({
-				position : new google.maps.LatLng(init.pin_lat, init.pin_lng),
+				position : new google.maps.LatLng(init.pinLat, init.pinLng),
 				map : t.__map,
 				draggable: map_options.pin_drag,
 				autoPan: true,
@@ -209,14 +209,6 @@ if (typeof(JDB.SBGoogleMap) == 'undefined' || ( ! JDB.SBGoogleMap instanceof Obj
 				this.__overlay_container = jQuery(document.getElementById(init.overlay_container));
 				this.__overlay_reset = jQuery(document.getElementById(init.overlay_reset));
 				this.__overlay_field = jQuery(document.getElementById(init.overlay_field));
-
-				// Matrix only passes the cell's required state as part of the display init js,
-				// so we'll grab that now, and if it's required hide our overlay
-				if( init.cell_required == true)
-				{
-					this.__overlay_container.hide();
-					this.__overlay_reset.hide();
-				}
 
 				if(this.__overlay_container.length && this.__overlay_reset.length && this.__overlay_field) {
 
@@ -427,19 +419,61 @@ function initialize() {
 		}
 	}
 
+
+	//if this map is in a sub-tab in the cp, we also want to attach a handler
+	//to retrigger the draw when the tab becomes visible
+	$('a.tab').bind('click',function()
+	{
+		refresh();
+	});
+	$('.fieldtoggle').bind('change', function()
+	{
+		refresh();
+	});
+
+
+	function refresh() {
+		for(var j in maps)
+		{
+			center = maps[j].__map.center;
+			maps[j].resize();
+			maps[j].set_center(center);
+		}
+	}
 }
 
 
 function initializeSingle(arrKey) {
-	maps = Array();
-
-	console.log('init single - '+arrKey);
+	mapsSingles = Array();
 
     if (typeof(JDB.google_maps) !== 'undefined' && JDB.google_maps instanceof Array) {
 		for (var i in JDB.google_maps) {
 			if(i == arrKey) {
-				console.log('found');
-				maps[i] = new JDB.SBGoogleMap.Map(JDB.google_maps[i].init, JDB.google_maps[i].options);
+				mapsSingles[i] = new JDB.SBGoogleMap.Map(JDB.google_maps[i].init, JDB.google_maps[i].options);
+			}
+		}
+	}
+
+
+	//if this map is in a sub-tab in the cp, we also want to attach a handler
+	//to retrigger the draw when the tab becomes visible
+	$('a.tab').bind('click',function()
+	{
+		refresh();
+	});
+	$('.fieldtoggle').bind('change', function()
+	{
+		refresh();
+	});
+
+
+	function refresh() {
+		for(var j in mapsSingles)
+		{
+			if(j == arrKey) {
+				center = mapsSingles[j].__map.center;
+				mapsSingles[j].resize();
+				mapsSingles[j].set_center(center);
 			}
 		}
 	}
