@@ -3,9 +3,6 @@
 <label>Map Default View</label>
 {% include "squarebitmaps/map" %}
 
-{% for error in settings.getErrors() %}
-	{{ dump(error) }}
-{% endfor %}
 
 {{ forms.textField({
 	label: "Container Height"|t,
