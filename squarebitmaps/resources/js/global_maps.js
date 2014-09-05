@@ -71,6 +71,7 @@ if (typeof(JDB.SBGoogleMap) == 'undefined' || ( ! JDB.SBGoogleMap instanceof Obj
 					map_options[o] = true;
 				}
 			}
+			console.log(options);
 
 			default_map_type = valid_map_types[map_options['map_type_default']];
 

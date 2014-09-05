@@ -14,16 +14,66 @@
 			mapLng: {{ (map.mapLng is defined and map.mapLng != '' ? map.mapLng : '') }},
 			mapZoom: {{ (map.mapZoom is defined and map.mapZoom != '' ? map.mapZoom : '') }},
 			pinLat: {{ (map.pinLat is defined and map.pinLat != '' ? map.pinLat : '' ) }},
-			pinLng: {{ (map.pinLng is defined and map.pinLng != '' ? map.pinLng : '') }},
+			pinLng: {{ (map.pinLng is defined and map.pinLng != '' ? map.pinLng : '') }}
+		},
+		options : {
+			{% for opt, val in options %}
+				{{ opt }} : '{{ val }}',
+			{% endfor %}
+			'' : ''
 		}
+
 	});
 
 	initializeSingle(arrKey-1);
 {% endset %}
 {% includeJs mapjs %}
 
-<div class="maps-ft-container">
-	<div id="{{ id }}" class="maps-ft-map" style="">
+{#
+// Create the initialisation array.
+		$init = array(
+			'id'			=> $params['id'],
+			'class'			=> $params['class'],
+			'control_panel'	=> FALSE,
+			'options'		=> array('background' => (isset($params['background']) ? $params['background'] : ''))
+		);
+
+		// Retrieve settings from the tag parameters.
+		if (isset($params['controls']))
+		{
+			$options = explode('|', $params['controls']);
+			$init['options']['ui_zoom']		= (array_search('zoom', $options) !== FALSE);
+			$init['options']['ui_scale']	= (array_search('scale', $options) !== FALSE);
+			$init['options']['ui_overview']	= (array_search('overview', $options) !== FALSE);
+			$init['options']['ui_map_type']	= (array_search('map_type', $options) !== FALSE);
+			$init['options']['ui_pan']	= (array_search('pan', $options) !== FALSE);
+			$init['options']['ui_rotate']	= (array_search('rotate', $options) !== FALSE);
+			$init['options']['ui_streetview']	= (array_search('streetview', $options) !== FALSE);
+			$init['options']['ui_disable']  = FALSE;
+		}
+
+
+		if (isset($params['map']))
+		{
+			$options = explode('|', $params['map']);
+			$init['options']['map_click_zoom']	= (array_search('click_zoom', $options) !== FALSE);
+			$init['options']['map_drag']		= (array_search('drag', $options) !== FALSE);
+			$init['options']['map_scroll_zoom']	= (array_search('scroll_zoom', $options) !== FALSE);
+		}
+
+
+		if( isset($params['height']))
+		{
+			$init['height'] = $params['height'];
+		}
+
+		if( isset($params['map_type_default']))
+		{
+			$init['options']['map_type_default'] = $params['map_type_default'];
+		}
+#}
+<div class="maps-ft-container {{ options.class }}">
+	<div id="{{ id }}" class="maps-ft-map"  style=" width : {{ options.width }}; height : {{ options.height }};">
 		Sorry, javascript is required for this map
 	</div>
 </div>
