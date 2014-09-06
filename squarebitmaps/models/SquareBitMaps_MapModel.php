@@ -34,10 +34,10 @@ class SquareBitMaps_MapModel extends BaseModel
     public function render($options = array())
     {
         craft()->templates->includeJsFile('//maps.google.com/maps/api/js?sensor=false');
+        $path = craft()->path->getTemplatesPath();
         craft()->path->setTemplatesPath(craft()->path->getPluginsPath());
 
         // Merge with the default options
-
         $arr['map'] = $this;
         $arr['options'] = $this->_clean_options($options);
 
@@ -52,6 +52,7 @@ class SquareBitMaps_MapModel extends BaseModel
         $arr['googleMapsApiKey'] = $settings->googleMapsApiKey;
 
         $ret = craft()->templates->render('squarebitmaps/templates/render', $arr);
+        craft()->path->setTemplatesPath($path);
 
         return $ret;
     }
