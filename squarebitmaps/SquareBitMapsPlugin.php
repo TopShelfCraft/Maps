@@ -10,7 +10,7 @@ class SquareBitMapsPlugin extends BasePlugin
 
 	function getVersion()
 	{
-		return '1.1.1.b1';
+		return '1.1.1';
 	}
 
 	function getDeveloper()
