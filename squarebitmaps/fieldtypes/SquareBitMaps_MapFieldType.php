@@ -33,7 +33,7 @@ class SquareBitMaps_MapFieldType extends BaseFieldType
         $array = $this->_splitCoords($value);
         $map = new SquareBitMaps_MapModel($array);
 
-        $this->onBeforeSquareBitMapsSave(new Event($this, array(
+        $this->onBeforeSave(new Event($this, array(
                'data'  => $array,
             'map'   => $map
         )));
