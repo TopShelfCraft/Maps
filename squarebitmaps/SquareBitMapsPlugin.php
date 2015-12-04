@@ -10,7 +10,7 @@ class SquareBitMapsPlugin extends BasePlugin
 
 	function getVersion()
 	{
-		return '1.1.1';
+		return '1.2.0';
 	}
 
 	function getDeveloper()
@@ -24,9 +24,20 @@ class SquareBitMapsPlugin extends BasePlugin
 	}
 
 	public function hasCpSection()
-    {
-        return false;
-    }
+	{
+		return false;
+	}
+
+	function getReleaseFeedUrl()
+	{
+		return 'https://squarebit.co.uk/software/craft/maps/updates.json';
+	}
+
+
+	public function getDocumentationUrl()
+	{
+		return 'https://squarebit.co.uk/software/craft/maps';
+	}
 
 	protected function defineSettings()
 	{
