@@ -1,7 +1,7 @@
 <?php
 namespace Craft;
 
-class SquareBitMapsVariable
+class MapsVariable
 {
 
     /*

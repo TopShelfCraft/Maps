@@ -1,7 +1,7 @@
 <?php
 namespace Craft;
 
-class SquareBitMaps_MapFieldType extends BaseFieldType
+class Maps_MapFieldType extends BaseFieldType
 {
     private $_apiKey = '';
     private $_fallbackSettings = array(
@@ -14,7 +14,7 @@ class SquareBitMaps_MapFieldType extends BaseFieldType
 
     public function getName()
     {
-        return Craft::t('Map (SquareBit)');
+        return Craft::t('Maps');
     }
 
     public function defineContentAttribute()
@@ -27,11 +27,11 @@ class SquareBitMaps_MapFieldType extends BaseFieldType
     {
         if (empty($value))
          {
-            return new SquareBitMaps_MapModel();
+            return new Maps_MapModel();
         }
 
         $array = $this->_splitCoords($value);
-        $map = new SquareBitMaps_MapModel($array);
+        $map = new Maps_MapModel($array);
 
         $this->onBeforeSave(new Event($this, array(
                'data'  => $array,
@@ -51,10 +51,10 @@ class SquareBitMaps_MapFieldType extends BaseFieldType
         $namespacedId = craft()->templates->namespaceInputId($id);
 
 
-        $plugin = craft()->plugins->getPlugin('squarebitmaps');
+        $plugin = craft()->plugins->getPlugin('maps');
         if (!$plugin)
         {
-            throw new Exception('Couldn’t find the SquareBit Maps plugin!');
+            throw new Exception('Couldn’t find the Maps plugin!');
         }
         $settings = $plugin->getSettings();
         $this->_apiKey = $settings->googleMapsApiKey;
@@ -63,7 +63,7 @@ class SquareBitMaps_MapFieldType extends BaseFieldType
         // Create a raw string representation
         $value = '';
         //$this->_implodeCoords($map);
-        if($map == null) $map = new SquareBitMaps_MapModel();
+        if($map == null) $map = new Maps_MapModel();
 
 
         $optional = false;
@@ -76,7 +76,7 @@ class SquareBitMaps_MapFieldType extends BaseFieldType
             // $optional = false;
         }
 
-        return craft()->templates->render('SquareBitMaps/map', array(
+        return craft()->templates->render('maps/map', array(
             'name'  => $name,
             'id'    => $id,
             'namespacedId' => $namespacedId,
@@ -101,15 +101,15 @@ class SquareBitMaps_MapFieldType extends BaseFieldType
         $namespacedId = craft()->templates->namespaceInputId($id);
 
 
-        $plugin = craft()->plugins->getPlugin('squarebitmaps');
+        $plugin = craft()->plugins->getPlugin('maps');
         if (!$plugin)
         {
-            throw new Exception('Couldn’t find the SquareBit Maps plugin!');
+            throw new Exception('Couldn’t find the Maps plugin!');
         }
         $settings = $plugin->getSettings();
         $this->_apiKey = $settings->googleMapsApiKey;
 
-        return craft()->templates->render('SquareBitMaps/settings', array(
+        return craft()->templates->render('maps/settings', array(
             'name'  => $name,
             'id'    => $id,
             'namespacedId' => $namespacedId,
@@ -179,7 +179,7 @@ class SquareBitMaps_MapFieldType extends BaseFieldType
     }
 
 
-    private function _implodeCoords(SquareBitMaps_MapModel $map)
+    private function _implodeCoords(Maps_MapModel $map)
     {
         $ret = '';
         $keys = array('mapLat' => '', 'mapLng' => '', 'mapZoom' => '', 'pinLat' => '', 'pinLng' => '');
@@ -209,13 +209,13 @@ class SquareBitMaps_MapFieldType extends BaseFieldType
     }
 
     /**
-     * Fires an 'onBeforeSquareBitMapsSave' event.
+     * Fires an 'onBeforeMapsSave' event.
      *
      * @param Event $event
      */
-    public function onBeforeSquareBitMapsSave(Event $event)
+    public function onBeforeMapsSave(Event $event)
     {
-        $this->raiseEvent('onBeforeSquareBitMapsSave', $event);
+        $this->raiseEvent('onBeforeMapsSave', $event);
     }
 
 }

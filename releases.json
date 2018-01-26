@@ -1,0 +1,55 @@
+[
+  {
+    "version": "1.2.1",
+    "date": "2018-01-25T00:00:00+00:00",
+    "downloadUrl": "https://github.com/TopShelfCraft/Maps/archive/1.2.1.zip",
+    "notes": [
+      "[Added] Updated for Top Shelf Craft transition"
+    ]
+  },
+  {
+    "version": "1.2.0",
+    "date": "2015-12-04T00:00:00+00:00",
+    "downloadUrl": "",
+    "notes": [
+      "[Added] Added icons for Craft 2.5 CP views",
+      "[Added] Added documentation and release feed urls for the 2.5 CP",
+      "[Fixed] Fixed a small issue with the javascript when running in a hidden tab that didn&#039;t have viewport focus."
+    ]
+  },
+  {
+    "version": "1.1.1",
+    "date": "2015-05-28T09:35:55+00:00",
+    "downloadUrl": "",
+    "notes": [
+      "[Added] onBeforeSave event to help custom usages ",
+      "[Fixed] A display bug where the map wouldn&#039;t always be reinitialised in a resized matrix block",
+      "[Fixed] Some small visual glitches in the CP views"
+    ]
+  },
+  {
+    "version": "1.1.0",
+    "date": "2014-09-05T00:00:00+00:00",
+    "downloadUrl": "",
+    "notes": [
+      "[Added] A direct map method with a full set of control and interaction settings to set exactly how the front-end rendered map looks and behaves",
+      "[Fixed] A bug that would throw an invalid template path when rendering the automatic map on the front-end on some Craft installs"
+    ]
+  },
+  {
+    "version": "1.0.1",
+    "date": "2014-08-21T11:07:38+00:00",
+    "downloadUrl": "",
+    "notes": [
+      "[Fixed] A bug that would stop the field settings view from working on some Craft installs not in devMode"
+    ]
+  },
+  {
+    "version": "1.0.0",
+    "date": "2014-08-07T00:00:00+00:00",
+    "downloadUrl": "",
+    "notes": [
+      "[New] First Public Release"
+    ]
+  }
+]

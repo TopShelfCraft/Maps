@@ -1,26 +1,27 @@
 <?php
 namespace Craft;
 
-class SquareBitMapsPlugin extends BasePlugin
+class MapsPlugin extends BasePlugin
 {
+
 	function getName()
 	{
-		return Craft::t('SquareBit Maps');
+		return Craft::t('Maps');
 	}
 
 	function getVersion()
 	{
-		return '1.2.0';
+		return '1.2.1';
 	}
 
 	function getDeveloper()
 	{
-		return 'Square Bit';
+		return 'Top Shelf Craft';
 	}
 
 	function getDeveloperUrl()
 	{
-		return 'http://squarebit.co.uk';
+		return 'https://topshelfcraft.com';
 	}
 
 	public function hasCpSection()
@@ -30,13 +31,12 @@ class SquareBitMapsPlugin extends BasePlugin
 
 	function getReleaseFeedUrl()
 	{
-		return 'https://squarebit.co.uk/software/craft/maps/updates.json';
+		return 'https://raw.githubusercontent.com/TopShelfCraft/Maps/master/releases.json';
 	}
-
 
 	public function getDocumentationUrl()
 	{
-		return 'https://squarebit.co.uk/software/craft/maps';
+		return 'https://raw.githubusercontent.com/TopShelfCraft/Maps';
 	}
 
 	protected function defineSettings()
@@ -46,13 +46,11 @@ class SquareBitMapsPlugin extends BasePlugin
 		);
 	}
 
-
 	public function getSettingsHtml()
 	{
-		return craft()->templates->render('squarebitmaps/_settings', array(
+		return craft()->templates->render('maps/_settings', array(
 			'settings' => $this->getSettings()
 		));
 	}
-
 
 }

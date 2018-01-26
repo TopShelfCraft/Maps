@@ -1,7 +1,7 @@
 <?php
 namespace Craft;
 
-class SquareBitMaps_MapModel extends BaseModel
+class Maps_MapModel extends BaseModel
 {
 
     public $default_options = array(
@@ -43,15 +43,15 @@ class SquareBitMaps_MapModel extends BaseModel
 
         if(!isset($arr['id'])) $arr['id'] = substr(md5(microtime()),rand(0,26),5);
 
-        $plugin = craft()->plugins->getPlugin('squarebitmaps');
+        $plugin = craft()->plugins->getPlugin('maps');
         if (!$plugin)
         {
-            throw new Exception('Couldn’t find the SquareBit Maps plugin!');
+            throw new Exception('Couldn’t find the Maps plugin!');
         }
         $settings = $plugin->getSettings();
         $arr['googleMapsApiKey'] = $settings->googleMapsApiKey;
 
-        $ret = craft()->templates->render('squarebitmaps/templates/render', $arr);
+        $ret = craft()->templates->render('maps/templates/render', $arr);
         craft()->path->setTemplatesPath($path);
 
         return $ret;

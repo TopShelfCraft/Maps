@@ -1,19 +1,42 @@
-# SquareBit Maps for Craft
+# Maps
 
-Google Maps for Craft, perfectly done.
+_Google Maps, for Craft CMS._
+
+**A [Top Shelf Craft](https://topshelfcraft.com) plugin**
+
+&mdash; Originally created by Joel Bradbury 
 
 
 ## Installation
 
-SquareBit Maps is a standard Craft plugin. Simply drop it into your /craft/plugins folder and install it from admin > settings >plugins.
-
-Full details on Installation, Usage and more are available at http://squarebit.co.uk/plugins/maps
+Simply drop the `maps` folder into your /craft/plugins directory and install it from _Settings > Plugins_.
 
 
-## Support
+## Documentation
 
-If you encounter any issues, have questions or feature requests for Maps on Craft, help is just an email away.
+A comprehensive [Guide](https://transition.topshelfcraft.com/software/craft/maps/usage/quickstart), along with [Release Notes](https://transition.topshelfcraft.com/software/craft/maps/updates), can be found in the documentation:
 
-Email support@squarebit.co.uk. Alternatively you can find me on twitter as @joelbradbury.
+**https://transition.topshelfcraft.com/software/craft/maps**
+ 
 
-Feature requests and suggestions are always welcome
+## What are the system requirements?
+
+Craft 2.6+ and PHP 5.4+
+
+
+## I've found a bug.
+
+You sure?
+
+
+## Yes, I believe I have.
+
+Well, alright. Please open a [GitHub Issue](https://github.com/topshelfcraft/Maps/issues), and if you're feeling ambitious, submit a PR to the `1.x.dev` branch.
+
+
+* * *
+
+### Contributors:
+
+  - Plugin development: [Michael Rog](http://michaelrog.com) / @michaelrog
+  - Original plugin development: [Joel Bradbury](https://squarebit.co.uk) / @joelbradbury
